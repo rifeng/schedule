@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title><%= content_for?(:title) ? yield(:title) : "foundation-rails" %></title>
+    <title><%= content_for?(:title) ? yield(:title) : "Grain Runners" %></title>
 
     <%= stylesheet_link_tag    "application" %>
     <%= javascript_include_tag "vendor/modernizr" %>
@@ -14,23 +14,46 @@
 
   <body>
     
-    <div class="sticky">
+    <div class="contain-to-grid sticky">
+      
       <nav class="top-bar" data-topbar role="navigation">
+
         <ul class="title-area">
           <li class="name">
             <h1><%= link_to "Runners", root_path %></h1>
           </li>
         </ul>
-        <ul class="name">
-            <li class="list">
+
+        <section class="top-bar-section">
+
+          <ul class="left">
+            <li class="name">
               <h1><%= link_to "asd", runners_path %></h1>
             </li>
-        </ul>
+          </ul>
+       
+
+         <ul class="right">
+            <% if user_signed_in? %>
+              <li class="name"><%= link_to "Log Out", destroy_user_session_path, method: :delete %></li>
+            <% else %>
+              <li class="name"><%= link_to "Sign In", new_user_session_path %></li>
+            <% end %>
+          </ul> 
+
+        </section>
+
       </nav >
+      
     </div>
 
-    <div class="small-4 medium-6 large-12 columns">
-      <%= yield %>
+    <div class="row">
+      <div class="small-4 medium-6 large-12 columns">
+        <% flash.each do |name, msg| %>
+          <%= content_tag(:div, msg, class: "alert alert-#{name}") %>
+        <% end %>
+        <%= yield %>
+      </div>
     </div>
 
   </body>
